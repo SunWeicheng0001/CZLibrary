@@ -27,6 +27,9 @@
     <ClInclude Include="FileStream.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="SockClient.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Basics.cpp">

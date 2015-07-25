@@ -81,6 +81,7 @@
     <ClInclude Include="Basics.h" />
     <ClInclude Include="FileStream.h" />
     <ClInclude Include="Interface.h" />
+    <ClInclude Include="SockClient.h" />
     <ClInclude Include="String.h" />
   </ItemGroup>
   <ItemGroup>

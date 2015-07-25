@@ -1,28 +1,19 @@
-#include "Basics.h"
-#include "String.h"
-#include "FileStream.h"
+#include "SockClient.h"
 #include <iostream>
 #include <string>
 #include <vector>
 #include <cstdio>
 using namespace cz;
-using namespace cz::stream;
+using namespace cz::czsocket;
 using namespace std;
 
 int main(){
-	CZString filename("1.txt");
-	//CZFileStream myFile(filename,CZFileStream::ReadOnly);
-	//char buffer[512];
-	//int num = myFile.Read(buffer, 512);
-	CZString str2;
-	cin >> str2;
-	string str3 = "1.txt";
-	bool flag = str2 == 'x';
-	cout << boolalpha << flag << endl;
-	vector<CZString> array = filename.Split('.');
-	for (int i = 0; i < array.size(); ++i){
-		cout << array[i] << " ";
+	CZClient client("127.0.0.1", "8800");
+	string str = "Hello ¹þ¹þ¹þ";
+	client.Send(str);
+	while (true)
+	{
+
 	}
-	cout << str2;
 	return 0;
 }

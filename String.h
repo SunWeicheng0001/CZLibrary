@@ -1,7 +1,6 @@
 #ifndef CZ_STRING
 #define CZ_STRING
 #include "Basics.h"
-#include <string>
 #include <vector>
 #include <iostream>
 #include <sstream>
@@ -11,6 +10,7 @@ namespace cz{
 		std::string *data;
 		int length;
 	public:
+		~CZString(){ delete data; }
 		CZString(){
 			data = new std::string();
 			length = 0;
