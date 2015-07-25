@@ -57,6 +57,10 @@ namespace cz{
 			length = data->length();
 		}
 
+		void			Assign(const std::string& str){ data = new std::string(str); length = data->length(); }
+		void			Assign(const CZString& str){ data = new std::string(str.ToString()); length = data->length(); }
+		void			Assign(const char* str){ data = new std::string(str); length = data->length(); }
+		void			Assign(const char x){data = new std::string();data->push_back(x);length = 1;}
 		std::vector<CZString> Split(char x);
 		void			Insert(int index, CZString& src);
 		void			Insert(int index, std::string& src);
@@ -70,7 +74,10 @@ namespace cz{
 		std::string		ToString()const {return *data;}
 		bool			IsEmpty()const { return length == 0; }
 		int				Length()const{ return length; }
-		char			ChatAt(int index){ return (*data)[index]; }
+		char			ChatAt(int index){ 
+			CHECK_ERROR(index >= 0 && index < length, L"CZString::CharAtÖÐindexÔ½½ç");
+			return (*data)[index]; 
+		}
 		static bool		IsSpace(char x){ return x == ' ' || x == '\n' || x == '\r' || x == '\t'; }
 		static int		Stoi(const CZString& _Str){ return std::stoi(_Str.ToString()); }
 		static long		Stol(const CZString& _Str){ return std::stol(_Str.ToString()); }
@@ -95,6 +102,11 @@ namespace cz{
 		CZString& operator+=(const char* str){ data->append(str); length = data->length(); return *this; }
 		CZString& operator+=(const std::string& str){ data->append(str); length = data->length(); return *this; }
 		CZString& operator+=(const char x){ data->append(&x); length = data->length(); return *this; }
+		bool operator==(const CZString& str){ return this->ToString() == str.ToString(); }
+		bool operator==(const std::string& str){ return this->ToString() == str; }
+		bool operator==(const char x){ return this->Length() == 1 && this->ChatAt(0) == x; }
+		bool operator==(const char* str){ return this->ToString() == std::string(str); }
+		char	operator[](int x){ return this->ChatAt(x); }
 		template <typename T>
 		CZString& operator+=(T x){
 			std::stringstream ss; ss << x;
@@ -105,6 +117,12 @@ namespace cz{
 		friend std::ostream& operator<<(std::ostream & output, const CZString & str){
 			output << str.ToString();
 			return output;
+		}
+		friend std::istream& operator>>(std::istream& input, CZString & str){
+			std::string temp;
+			input >> temp;
+			str.Assign(temp);
+			return input;
 		}
 	};
 	

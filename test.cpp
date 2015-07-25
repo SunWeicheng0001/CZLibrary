@@ -14,10 +14,15 @@ int main(){
 	//CZFileStream myFile(filename,CZFileStream::ReadOnly);
 	//char buffer[512];
 	//int num = myFile.Read(buffer, 512);
-	CZString str2("2.txt");
+	CZString str2;
+	cin >> str2;
+	string str3 = "1.txt";
+	bool flag = str2 == 'x';
+	cout << boolalpha << flag << endl;
 	vector<CZString> array = filename.Split('.');
 	for (int i = 0; i < array.size(); ++i){
 		cout << array[i] << " ";
 	}
+	cout << str2;
 	return 0;
 }
