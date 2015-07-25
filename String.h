@@ -3,6 +3,8 @@
 #include "Basics.h"
 #include <string>
 #include <vector>
+#include <iostream>
+#include <sstream>
 namespace cz{
 	class CZString : public Object{
 	private:
@@ -66,7 +68,7 @@ namespace cz{
 		void			RemoveFrontDuplicateChar(char x);
 		std::wstring	ToWString() const;
 		std::string		ToString()const {return *data;}
-
+		bool			IsEmpty()const { return length == 0; }
 		int				Length()const{ return length; }
 		char			ChatAt(int index){ return (*data)[index]; }
 		static bool		IsSpace(char x){ return x == ' ' || x == '\n' || x == '\r' || x == '\t'; }
@@ -78,6 +80,33 @@ namespace cz{
 		static double	Stold(const CZString& _Str){ return std::stold(_Str.ToString()); }
 		template <typename T>
 		static CZString NumToString(T value){ std::string temp = std::to_string(value); return CZString(temp);}
+		CZString operator+(const CZString& str){ data->append(str.ToString()); length = data->length(); return *this; }
+		CZString operator+(const char* str){ data->append(str); length = data->length(); return *this; }
+		CZString operator+(const std::string& str){ data->append(str); length = data->length(); return *this; }
+		CZString operator+(const char x){ data->append(&x); length = data->length(); return *this; }
+		template <typename T>
+		CZString operator+(T x){
+			std::stringstream ss;ss << x;
+			data->append(ss.str());
+			length = data->length();
+			return *this;
+		}
+		CZString& operator+=(const CZString& str){ data->append(str.ToString()); length = data->length(); return *this; }
+		CZString& operator+=(const char* str){ data->append(str); length = data->length(); return *this; }
+		CZString& operator+=(const std::string& str){ data->append(str); length = data->length(); return *this; }
+		CZString& operator+=(const char x){ data->append(&x); length = data->length(); return *this; }
+		template <typename T>
+		CZString& operator+=(T x){
+			std::stringstream ss; ss << x;
+			data->append(ss.str());
+			length = data->length();
+			return *this;
+		}
+		friend std::ostream& operator<<(std::ostream & output, const CZString & str){
+			output << str.ToString();
+			return output;
+		}
 	};
+	
 }
 #endif
