@@ -79,10 +79,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Basics.h" />
+    <ClInclude Include="FileStream.h" />
+    <ClInclude Include="Interface.h" />
     <ClInclude Include="String.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Basics.cpp" />
+    <ClCompile Include="FileStream.cpp" />
     <ClCompile Include="String.cpp" />
     <ClCompile Include="test.cpp" />
   </ItemGroup>

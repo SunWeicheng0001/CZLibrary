@@ -69,7 +69,7 @@ namespace cz{
 
 	void CZString::Insert(int index, CZString& src){
 		CHECK_ERROR(index >= 0 && index <= length, "CZString::Insert(int,CZString)#参数count越界。");
-		data->insert(index, src.toString());
+		data->insert(index, src.ToString());
 		length = data->length();
 	}
 	void CZString::Insert(int index, std::string& src){
@@ -89,5 +89,15 @@ namespace cz{
 		data = new std::string (data->begin() + start, data->begin() + start + count);
 		length = data->length();
 		return *this;
+	}
+
+	std::wstring CZString::ToWString() const{
+		const char *CStr = data->c_str();
+		size_t len = strlen(CStr) + 1;
+		size_t converted = 0;
+		wchar_t *WStr;
+		WStr = (wchar_t*)malloc(len*sizeof(wchar_t));
+		mbstowcs_s(&converted, WStr, len, CStr, _TRUNCATE);
+		return std::wstring(WStr);
 	}
 }

@@ -33,7 +33,7 @@ namespace cz{
 			length = data->length();
 		}
 		CZString(std::string& str, int start, int length){
-			if (start > str.length() || start + length > str.length()){
+			if (start > (int)str.length() || start + length > (int)str.length()){
 				data = new std::string();
 				length = 0;
 			}
@@ -56,25 +56,26 @@ namespace cz{
 		}
 
 		std::vector<CZString> Split(char x);
-		void Insert(int index, CZString& src);
-		void Insert(int index, std::string& src);
-		void Insert(int index, char src);
-		CZString& Sub(int start, int end);
-		void RemoveBackWhiteSpace();
-		void RemoveFrontWhiteSpace();
-		void RemoveBackDuplicateChar(char x);
-		void RemoveFrontDuplicateChar(char x);
+		void			Insert(int index, CZString& src);
+		void			Insert(int index, std::string& src);
+		void			Insert(int index, char src);
+		CZString&		Sub(int start, int end);
+		void			RemoveBackWhiteSpace();
+		void			RemoveFrontWhiteSpace();
+		void			RemoveBackDuplicateChar(char x);
+		void			RemoveFrontDuplicateChar(char x);
+		std::wstring	ToWString() const;
+		std::string		ToString()const {return *data;}
 
-		std::string toString()const {return *data;}
-		int Length()const{ return length; }
-		char ChatAt(int index){ return (*data)[index]; }
-		static bool IsSpace(char x){ return x == ' ' || x == '\n' || x == '\r' || x == '\t'; }
-		static int Stoi(const CZString& _Str){ return std::stoi(_Str.toString()); }
-		static long Stol(const CZString& _Str){ return std::stol(_Str.toString()); }
-		static long long Stoll(const CZString* _Str){ return std::stoll(_Str->toString()); }
-		static float Stof(const CZString& _Str){ return std::stof(_Str.toString()); }
-		static double Stod(const CZString& _Str){ return std::stod(_Str.toString()); }
-		static double Stold(const CZString& _Str){ return std::stold(_Str.toString()); }
+		int				Length()const{ return length; }
+		char			ChatAt(int index){ return (*data)[index]; }
+		static bool		IsSpace(char x){ return x == ' ' || x == '\n' || x == '\r' || x == '\t'; }
+		static int		Stoi(const CZString& _Str){ return std::stoi(_Str.ToString()); }
+		static long		Stol(const CZString& _Str){ return std::stol(_Str.ToString()); }
+		static long long Stoll(const CZString* _Str){ return std::stoll(_Str->ToString()); }
+		static float	Stof(const CZString& _Str){ return std::stof(_Str.ToString()); }
+		static double	Stod(const CZString& _Str){ return std::stod(_Str.ToString()); }
+		static double	Stold(const CZString& _Str){ return std::stold(_Str.ToString()); }
 		template <typename T>
 		static CZString NumToString(T value){ std::string temp = std::to_string(value); return CZString(temp);}
 	};

@@ -80,5 +80,7 @@ namespace cz{
 		virtual ~Interface();
 	};
 
+	typedef signed __int64	pos_t;
+	typedef signed __int64	cint;
 }
 #endif

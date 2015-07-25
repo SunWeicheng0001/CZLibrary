@@ -1,17 +1,18 @@
 #include "Basics.h"
 #include "String.h"
+#include "FileStream.h"
 #include <iostream>
 #include <string>
 #include <vector>
 using namespace cz;
+using namespace cz::stream;
 using namespace std;
 
 int main(){
-	//CZString myString(src);
-	CZString myString("1234");
-	myString.Insert(0, '5');
-	cout << myString.toString() << endl;
-	CZString temp = myString.Sub(0, 5);
-	cout << temp.toString() << endl;
+	CZString filename("1.txt");
+	CZFileStream myFile(filename,CZFileStream::ReadOnly);
+	char buffer[512];
+	int num = myFile.Read(buffer, 512);
+	printf("%s", buffer);
 	return 0;
 }
