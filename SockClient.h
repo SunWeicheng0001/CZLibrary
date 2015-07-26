@@ -23,6 +23,7 @@ namespace cz{
 			WSADATA wsaData;
 			struct addrinfo *result = NULL, *ptr = NULL, hints;
 			SOCKET ConnectSocket = INVALID_SOCKET;
+			std::thread mReceiveThread;
 		public:
 			CZClient(const char* _serverAddress, const char* _serverPort){
 				memcpy(serverAddress, _serverAddress, strlen(_serverAddress));
@@ -70,30 +71,55 @@ namespace cz{
 					WSACleanup();
 					return;
 				}
+				//detach a Receive Thread
 				std::thread t1(&CZClient::Receive,this);
-				t1.detach();
+				mReceiveThread = std::move(t1);
+				mReceiveThread.detach();
 			}
 
-			bool Send(const std::string& msg){
-				int num = send(ConnectSocket, msg.c_str(), msg.length()+1, 0);
-				std::cout << "send " + msg <<" " << num << std::endl;
-				return num != 0;
+			void Send(const std::string& msg){
+				std::thread t(&CZClient::SendImpl, this, msg);
+				t.detach();
+				//std::cout << "send " + msg <<" " << num << std::endl;
+			}
+
+			void ShutDown(){
+				closesocket(ConnectSocket);
+				WSACleanup();
+			}
+
+			bool isConnected(){
+				int num = recv(ConnectSocket, recvBuf, BUF_LEN, 0);
+				return num == -1;
+			}
+
+			std::string getRemoteAddress(){
+				SOCKADDR_IN addr_conn;
+				int nSize = sizeof(addr_conn);
+				ZeroMemory(&addr_conn, sizeof(addr_conn));
+				getpeername(ConnectSocket, (SOCKADDR*)&addr_conn, &nSize);
+				char szPeername[16];
+				ZeroMemory(szPeername, sizeof(szPeername));
+				strcpy_s(szPeername, inet_ntoa(addr_conn.sin_addr));
+				return std::string(szPeername);
 			}
 		private:
+			void SendImpl(const std::string& msg){
+				int num = send(ConnectSocket, msg.c_str(), msg.length() + 1, 0);
+			}
 			void Receive(){
 				int num = 0;
 				while (true){
 					num = recv(ConnectSocket, recvBuf, BUF_LEN, 0);
 					if (num == -1){
 						printf("client receive error\n");
-						break;
+						ShutDown();
+						return;
 					}
 					recvBuf[num] = '\0';
 					std::string temp(recvBuf);
 					std::cout <<recvBuf;
 				}
-				closesocket(ConnectSocket);
-				WSACleanup();
 			}
 		};
 	}

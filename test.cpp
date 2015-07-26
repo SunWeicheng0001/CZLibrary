@@ -8,8 +8,10 @@ using namespace cz::czsocket;
 using namespace std;
 
 int main(){
-	CZClient client("127.0.0.1", "8800");
+	CZClient client("58.196.155.190", "9000");
 	string str = "Hello ¹þ¹þ¹þ";
+	string remoteName = client.getRemoteAddress();
+	cout << remoteName << endl;
 	client.Send(str);
 	while (true)
 	{
